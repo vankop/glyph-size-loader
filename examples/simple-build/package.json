@@ -1,0 +1,15 @@
+{
+  "name": "simple-build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack-cli"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
+  }
+}
