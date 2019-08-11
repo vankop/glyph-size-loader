@@ -1,5 +1,6 @@
 const SUPPORTED_CHARSETS: {[k: string]: [number, number]} = {
-	latin: [0, 0x024F +1],
+	latin: [0, 0x007F +1],
+	"latin-extended": [0x0080, 0x024F +1],
 	greek: [0x0370, 0x03FF + 1],
 	coptic: [0x0370, 0x03FF + 1],
 	cyrillic: [0x0400, 0x052F + 1],

@@ -1,4 +1,4 @@
-import widthForRegularFontString from '../../dist/index.js!./OpenSans-Regular.ttf';
+import widthForRegularFontString from '../../dist/index.js?charset[]=cyrillic,charset[]=latin!./OpenSans-Regular.ttf';
 
 const text = 'Hello world!';
 const fontSizePx = 12;

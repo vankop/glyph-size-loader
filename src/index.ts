@@ -19,13 +19,15 @@ interface LoaderOptions {
 
 module.exports = function glyphSizeLoader(this: webpack.loader.LoaderContext, content: Buffer) {
 	const font: opentype.Font = opentype.parse(bufferToArrayBuffer(content));
-	const options: LoaderOptions = loaderUtils.getOptions<LoaderOptions>(this);
+	const options: LoaderOptions | null = loaderUtils.getOptions<LoaderOptions>(this);
 
 	if (!font.supported) {
 		throw new Error("Can't read font tables");
 	}
 
-	const charsets: Array<[number, number]> = options.charset ? parseCharsets(options.charset) : [[0, 0x100000]];
+	const charsets: Array<[number, number]> = options && options.charset
+		? parseCharsets(options.charset)
+		: [[0, 0x100000]];
 	const upm: number = font.unitsPerEm;
 	let sum: number = 0;
 	let isFixedSize: boolean = true;
