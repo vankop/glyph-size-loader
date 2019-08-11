@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/vankop/glyph-size-loader#readme",
   "dependencies": {
+    "loader-utils": "^1.2.3",
     "opentype.js": "^1.1.0"
   },
   "devDependencies": {

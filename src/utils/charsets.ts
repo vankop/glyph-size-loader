@@ -49,7 +49,7 @@ function addCharset(charset: [number, number], charsets: Array<[number, number]>
 	return charsets;
 }
 
-export default function parseCharSets(charsets: Array<string>): Array<[number, number]> {
+export function parseCharsets(charsets: Array<string>): Array<[number, number]> {
 	let i: number = 0;
 	let startCharCode: number = -1;
 	const result: Array<[number, number]> = [];
@@ -95,4 +95,14 @@ export default function parseCharSets(charsets: Array<string>): Array<[number, n
 	}
 
 	return result;
+}
+
+export function isAllowed(charsets: Array<[number, number]>, unicode: number) {
+	let i = 0;
+
+	while (i < charsets.length && (charsets[i][1] - 1) < unicode) i++;
+
+	if (i === charsets.length) return false;
+
+	return charsets[i][0] <= unicode;
 }
