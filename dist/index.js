@@ -6,7 +6,7 @@ const CommonFont_1 = require("./templates/CommonFont");
 const index_1 = require("./utils/index");
 const opentype = require("opentype.js");
 const charsets_1 = require("./utils/charsets");
-const FIXED_DECIMALS = 4;
+const FIXED_DECIMALS = 3;
 const SAME_SIZE_PRECISION = 1 + `e-${FIXED_DECIMALS}` - 1;
 function insertCharCode(sizesEntry, code) {
     let i = sizesEntry.length - 2;
@@ -52,7 +52,7 @@ module.exports = function glyphSizeLoader(content) {
                 unicodes.forEach(ch => typeof ch === "number" && insertCharCode(current, ch));
             }
             else {
-                const sorted = unicodes.sort();
+                const sorted = unicodes.filter(a => typeof a === "number").sort();
                 sorted.push(size);
                 sizes.set(size, sorted);
             }

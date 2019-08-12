@@ -11,7 +11,7 @@ import {
 import * as opentype from 'opentype.js';
 import {isAllowed} from "./utils/charsets";
 
-const FIXED_DECIMALS: number = 4;
+const FIXED_DECIMALS: number = 3;
 const SAME_SIZE_PRECISION: number = 1 + `e-${FIXED_DECIMALS}` as any - 1;
 
 interface LoaderOptions {
