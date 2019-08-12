@@ -9,7 +9,7 @@ import {
 	insertToArray
 } from './utils/index';
 import * as opentype from 'opentype.js';
-import {isAllowed} from "./utils/charsets";
+import {isAllowed} from './utils/charsets';
 
 const FIXED_DECIMALS: number = 3;
 const SAME_SIZE_PRECISION: number = 1 + `e-${FIXED_DECIMALS}` as any - 1;
@@ -30,7 +30,7 @@ module.exports = function glyphSizeLoader(this: webpack.loader.LoaderContext, co
 	const options: LoaderOptions | null = loaderUtils.getOptions<LoaderOptions>(this);
 
 	if (!font.supported) {
-		throw new Error("Can't read font tables");
+		throw new Error('Can\'t read font tables');
 	}
 
 	const charsets: Array<[number, number]> = options && options.charset
@@ -69,9 +69,9 @@ module.exports = function glyphSizeLoader(this: webpack.loader.LoaderContext, co
 			if (sizes.has(size)) {
 				const current = sizes.get(size) as Array<number>;
 
-				unicodes.forEach(ch => typeof ch === "number" && insertCharCode(current, ch));
+				unicodes.forEach(ch => typeof ch === 'number' && insertCharCode(current, ch));
 			} else {
-				const sorted = unicodes.filter(a => typeof a === "number").sort();
+				const sorted = unicodes.filter(a => typeof a === 'number').sort();
 
 				sorted.push(size);
 				sizes.set(size, sorted);
