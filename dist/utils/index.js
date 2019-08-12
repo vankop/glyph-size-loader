@@ -7,3 +7,5 @@ exports.bufferToArrayBuffer = bufferToArrayBuffer_1.default;
 var charsets_1 = require("./charsets");
 exports.parseCharsets = charsets_1.parseCharsets;
 exports.isCharAllowed = charsets_1.isAllowed;
+var insertToArray_1 = require("./insertToArray");
+exports.insertToArray = insertToArray_1.default;

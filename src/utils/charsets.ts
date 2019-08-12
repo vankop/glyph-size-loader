@@ -1,3 +1,5 @@
+import insert from './insertToArray';
+
 const SUPPORTED_CHARSETS: {[k: string]: [number, number]} = {
 	latin: [0, 0x007F +1],
 	"latin-extended": [0x0080, 0x024F +1],
@@ -10,19 +12,6 @@ const SUPPORTED_CHARSETS: {[k: string]: [number, number]} = {
 	currency: [0x20A0, 0x20CF + 1],
 	math: [0x2200, 0x22FF + 1]
 };
-
-function insert(arr: Array<object>, el: object, index: number) {
-	let current: object = el;
-
-	for (let i = index; i < arr.length; i++) {
-		let tmp = arr[i];
-		arr[i] = current;
-		current = tmp;
-	}
-
-	arr.push(current);
-	return arr;
-}
 
 function addCharset(charset: [number, number], charsets: Array<[number, number]>): Array<[number, number]> {
 	let i: number = 0;

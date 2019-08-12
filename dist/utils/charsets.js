@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const insertToArray_1 = require("./insertToArray");
 const SUPPORTED_CHARSETS = {
     latin: [0, 0x007F + 1],
     "latin-extended": [0x0080, 0x024F + 1],
@@ -12,16 +13,6 @@ const SUPPORTED_CHARSETS = {
     currency: [0x20A0, 0x20CF + 1],
     math: [0x2200, 0x22FF + 1]
 };
-function insert(arr, el, index) {
-    let current = el;
-    for (let i = index; i < arr.length; i++) {
-        let tmp = arr[i];
-        arr[i] = current;
-        current = tmp;
-    }
-    arr.push(current);
-    return arr;
-}
 function addCharset(charset, charsets) {
     let i = 0;
     while (i < charsets.length && charsets[i][0] < charset[0])
@@ -40,7 +31,7 @@ function addCharset(charset, charsets) {
         charsets[i][1] = Math.max(charsets[i][1], charset[1]);
         return charsets;
     }
-    insert(charsets, charset, i);
+    insertToArray_1.default(charsets, charset, i);
     return charsets;
 }
 function parseCharsets(charsets) {

@@ -8,6 +8,12 @@ const opentype = require("opentype.js");
 const charsets_1 = require("./utils/charsets");
 const FIXED_DECIMALS = 4;
 const SAME_SIZE_PRECISION = 1 + `e-${FIXED_DECIMALS}` - 1;
+function insertCharCode(sizesEntry, code) {
+    let i = sizesEntry.length - 2;
+    while (i > -1 && sizesEntry[i] > code)
+        i--;
+    index_1.insertToArray(sizesEntry, code, i + 1);
+}
 module.exports = function glyphSizeLoader(content) {
     const font = opentype.parse(index_1.bufferToArrayBuffer(content));
     const options = loaderUtils.getOptions(this);
@@ -18,10 +24,17 @@ module.exports = function glyphSizeLoader(content) {
         ? index_1.parseCharsets(options.charset)
         : [[0, 0x100000]];
     const upm = font.unitsPerEm;
+    const glyphs = Object.values(font.glyphs.glyphs);
+    const sizes = new Map();
     let sum = 0;
     let isFixedSize = true;
     let fixedSize = -1;
-    const glyphs = Object.values(font.glyphs.glyphs).reduce((memo, { unicodes, advanceWidth }) => {
+    let i = 0;
+    while (i < glyphs.length) {
+        const { unicodes, advanceWidth } = glyphs[i++];
+        if (unicodes.length === 0) {
+            continue;
+        }
         let size = advanceWidth / upm;
         sum += size;
         size = index_1.decimalToFixed(size, FIXED_DECIMALS);
@@ -34,12 +47,19 @@ module.exports = function glyphSizeLoader(content) {
             }
         }
         if (unicodes.every(code => charsets_1.isAllowed(charsets, code))) {
-            unicodes.forEach(ch => memo[ch] = size);
+            if (sizes.has(size)) {
+                const current = sizes.get(size);
+                unicodes.forEach(ch => typeof ch === "number" && insertCharCode(current, ch));
+            }
+            else {
+                const sorted = unicodes.sort();
+                sorted.push(size);
+                sizes.set(size, sorted);
+            }
         }
-        return memo;
-    }, {});
+    }
     return (isFixedSize
         ? FixedWidthFont_1.default(fixedSize)
-        : CommonFont_1.default(glyphs, index_1.decimalToFixed(sum / Object.keys(font.glyphs.glyphs).length, FIXED_DECIMALS)));
+        : CommonFont_1.default(sizes, index_1.decimalToFixed(sum / Object.keys(font.glyphs.glyphs).length, FIXED_DECIMALS)));
 };
 module.exports.raw = true;
