@@ -1,4 +1,6 @@
-export default function commonFontTemplate(glyphs: Map<number, Array<number>>, avg: number) {
+import baseTemplate from './Base';
+
+export default function commonFontTemplate(glyphs: Map<number, Array<number>>, avg: number): string {
 	const sorted = Array.from(glyphs.values()).sort((a, b) => a[0] - b[0]);
 
 	return `var SIZES = ${JSON.stringify(sorted)}, cache = {};
@@ -26,16 +28,5 @@ function multiplier(text) {
 	
 	return result;
 }
-
-export function widthFor(text, fontSize) {
-	if (typeof text !== "string") return 0;
-	
-	return Math.ceil(multiplier(text) * fontSize);
-}
-
-export function fitTo(text, width) {
-	if (typeof text !== "string") return 0;
-	
-	return Math.floor(width / multiplier(text));
-}`;
+` + baseTemplate();
 };

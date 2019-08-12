@@ -1,12 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const Base_1 = require("./Base");
 function fixedWidthFontTemplate(percent) {
-    return `
-	export default function (text, fontSize) {
-		if (typeof text !== "string") return 0;
-		return Math.ceil(text.length * ${percent} * fontSize);
-	}
-	`;
+    return `function multiplier(text) { return text.length * ${percent}; }
+` + Base_1.default();
 }
 exports.default = fixedWidthFontTemplate;
 ;

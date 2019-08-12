@@ -1,8 +1,6 @@
-export default function fixedWidthFontTemplate(percent: number) {
-	return `
-	export default function (text, fontSize) {
-		if (typeof text !== "string") return 0;
-		return Math.ceil(text.length * ${percent} * fontSize);
-	}
-	`;
+import baseTemplate from "./Base";
+
+export default function fixedWidthFontTemplate(percent: number): string {
+	return `function multiplier(text) { return text.length * ${percent}; }
+` + baseTemplate();
 };
