@@ -18,15 +18,26 @@ function getPercent(ch) {
 	return (cache[ch] = j > -1 ?  SIZES[i][SIZES[i].length - 1] : ${avg});
 }
 
-export default function (text, fontSize) {
-	if (typeof text !== "string") return 0;
-	
+function multiplier(text) {
 	var result = 0, i = 0;
+	
 	for (; i < text.length; i++) {
-		result += getPercent(text.charCodeAt(i)) * fontSize;
+		result += getPercent(text.charCodeAt(i));
 	}
 	
-	return Math.ceil(result);
+	return result;
+}
+
+export function widthFor(text, fontSize) {
+	if (typeof text !== "string") return 0;
+	
+	return Math.ceil(multiplier(text) * fontSize);
+}
+
+export function fitTo(text, width) {
+	if (typeof text !== "string") return 0;
+	
+	return Math.floor(width / multiplier(text));
 }`;
 }
 exports.default = commonFontTemplate;

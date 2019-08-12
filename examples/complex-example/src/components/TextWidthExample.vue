@@ -31,7 +31,7 @@ export default {
 	},
 	computed: {
 		width() {
-			return fontStringFactory(this.fontFamily)(this.val, 12);
+			return fontStringFactory(this.fontFamily).widthFor(this.val, 12);
 		},
 		styles() {
 			return `font-family: ${this.fontFamily}, sans-serif;`;

@@ -18,7 +18,7 @@ module.exports = function glyphSizeLoader(content) {
     const font = opentype.parse(index_1.bufferToArrayBuffer(content));
     const options = loaderUtils.getOptions(this);
     if (!font.supported) {
-        throw new Error("Can't read font tables");
+        throw new Error('Can\'t read font tables');
     }
     const charsets = options && options.charset
         ? index_1.parseCharsets(options.charset)
@@ -49,10 +49,10 @@ module.exports = function glyphSizeLoader(content) {
         if (unicodes.every(code => charsets_1.isAllowed(charsets, code))) {
             if (sizes.has(size)) {
                 const current = sizes.get(size);
-                unicodes.forEach(ch => typeof ch === "number" && insertCharCode(current, ch));
+                unicodes.forEach(ch => typeof ch === 'number' && insertCharCode(current, ch));
             }
             else {
-                const sorted = unicodes.filter(a => typeof a === "number").sort();
+                const sorted = unicodes.filter(a => typeof a === 'number').sort();
                 sorted.push(size);
                 sizes.set(size, sorted);
             }
