@@ -1,11 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const loader_utils_1 = require("loader-utils");
 const opentype_js_1 = require("opentype.js");
-const validateOptions = require('schema-utils');
-const FixedWidthFont_1 = require("./templates/FixedWidthFont");
-const CommonFont_1 = require("./templates/CommonFont");
-const processOptions_1 = require("./processOptions");
+const schema_utils_1 = __importDefault(require("schema-utils"));
+const FixedWidthFont_1 = __importDefault(require("./templates/FixedWidthFont"));
+const CommonFont_1 = __importDefault(require("./templates/CommonFont"));
+const processOptions_1 = __importDefault(require("./processOptions"));
 const utils_1 = require("./utils");
 const FIXED_DECIMALS_PLACES = 3;
 const SAME_SIZE_PRECISION = 1 + `e-${FIXED_DECIMALS_PLACES}` - 1;
@@ -19,7 +22,7 @@ module.exports = function glyphSizeLoader(content) {
     const font = opentype_js_1.parse(utils_1.bufferToArrayBuffer(content));
     const rawOptions = loader_utils_1.getOptions(this);
     if (rawOptions) {
-        validateOptions(utils_1.SCHEMA, rawOptions);
+        schema_utils_1.default(utils_1.SCHEMA, rawOptions);
     }
     const processedOptions = processOptions_1.default(rawOptions);
     if (!font.supported) {

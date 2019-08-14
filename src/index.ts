@@ -1,7 +1,7 @@
 import {loader} from 'webpack';
 import {getOptions} from 'loader-utils';
 import {parse, Font, Glyph} from 'opentype.js';
-const validateOptions = require('schema-utils');
+import validateOptions from 'schema-utils';
 import fixedWidthFontTemplate from './templates/FixedWidthFont';
 import commonFontTemplate from './templates/CommonFont';
 import processOptions from './processOptions';
