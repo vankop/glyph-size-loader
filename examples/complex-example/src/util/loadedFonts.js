@@ -1,4 +1,4 @@
-const fontsRequire = require.context('!../../../../dist/index.js?charset[]=cyrillic,charset[]=latin!../fonts', false, /\.(ttf|woff|woff2)$/);
+const fontsRequire = require.context('!../../../../dist/index.js?ranges[]=cyrillic,ranges[]=0-00A0!../fonts', false, /\.(ttf|woff|woff2)$/);
 const keys = fontsRequire.keys();
 const requires = keys.map(key => fontsRequire(key));
 

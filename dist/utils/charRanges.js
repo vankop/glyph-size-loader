@@ -25,27 +25,21 @@ function addCharRange(charRange, charRanges) {
 }
 function parseCharRanges(charRanges) {
     let i = 0;
-    let startCharCode = -1;
     const result = [];
     while (i < charRanges.length) {
         const current = charRanges[i++];
-        const isNumber = /\d/.test(current);
-        if (isNumber) {
-            const num = parseInt(current, 16);
-            if (Number.isNaN(num)) {
-                throw new Error(`Char range query param "${current}" is not valid hex number`);
+        if (Array.isArray(current)) {
+            addCharRange([current[0], current[1] + 1], result);
+            continue;
+        }
+        const ranges = /([\d|A|B|C|D|E|F]+)-([\d|A|B|C|D|E|F]+)/i.exec(current);
+        if (ranges) {
+            const num1 = parseInt(ranges[1], 16);
+            const num2 = parseInt(ranges[2], 16);
+            if (Number.isNaN(num1) || Number.isNaN(num2) || num1 > num2) {
+                throw new Error(`Char range "${current}" is not a valid range`);
             }
-            if (startCharCode === -1) {
-                startCharCode = num;
-            }
-            else {
-                const charRange = [startCharCode, num + 1];
-                if (charRange[1] <= charRange[0]) {
-                    throw new Error(`char range range is invalid, got ${charRange}`);
-                }
-                addCharRange(charRange, result);
-                startCharCode = -1;
-            }
+            addCharRange([num1, num2 + 1], result);
         }
         else {
             const charRange = consts_1.CHAR_RANGES[current];
@@ -54,10 +48,6 @@ function parseCharRanges(charRanges) {
             }
             addCharRange(charRange, result);
         }
-    }
-    if (startCharCode !== -1) {
-        const charRange = [startCharCode, startCharCode + 1];
-        addCharRange(charRange, result);
     }
     return result;
 }

@@ -7,9 +7,7 @@
 	"suppressImplicitAnyIndexErrors": true,
 	"strict": true,
 	"module": "commonjs",
-	"moduleResolution": "node"
-  },
-  "include": [
-	"./types/*.ts"
-  ]
+	"moduleResolution": "node",
+	"typeRoots": ["./types"]
+  }
 }

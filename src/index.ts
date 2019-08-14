@@ -4,6 +4,8 @@ import {parse, Font, Glyph} from 'opentype.js';
 const validateOptions = require('schema-utils');
 import fixedWidthFontTemplate from './templates/FixedWidthFont';
 import commonFontTemplate from './templates/CommonFont';
+import processOptions from './processOptions';
+import {LoaderOptions} from './types';
 import {
 	bufferToArrayBuffer,
 	decimalPlacesToFixed,
@@ -16,9 +18,7 @@ import {
 const FIXED_DECIMALS_PLACES: number = 3;
 const SAME_SIZE_PRECISION: number = 1 + `e-${FIXED_DECIMALS_PLACES}` as any - 1;
 
-interface LoaderOptions {
-	charset?: Array<string>
-}
+
 
 function insertCharCode(sizesEntry: Array<number>, code: number) {
 	let i = sizesEntry.length - 2;
@@ -29,19 +29,19 @@ function insertCharCode(sizesEntry: Array<number>, code: number) {
 
 module.exports = function glyphSizeLoader(this: loader.LoaderContext, content: Buffer) {
 	const font: Font = parse(bufferToArrayBuffer(content));
-	const options: LoaderOptions | null = getOptions<LoaderOptions>(this);
+	const rawOptions: Partial<LoaderOptions> | null = getOptions<Partial<LoaderOptions>>(this);
 
-	if (options) {
-		validateOptions(SCHEMA, options);
+	if (rawOptions) {
+		validateOptions(SCHEMA, rawOptions);
 	}
+
+	const processedOptions = processOptions(rawOptions);
 
 	if (!font.supported) {
 		throw new Error('Can\'t read font tables');
 	}
 
-	const charRanges: Array<[number, number]> = options && options.charset
-		? parseCharRanges(options.charset)
-		: [[0, 0x100000]];
+	const charRanges: Array<[number, number]> = parseCharRanges(processedOptions.ranges);
 	const upm: number = font.unitsPerEm;
 	const glyphs: Array<Glyph> = Object.values(font.glyphs.glyphs);
 	const sizes: Map<number, Array<number>> = new Map();

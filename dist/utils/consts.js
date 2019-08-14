@@ -15,23 +15,21 @@ exports.CHAR_RANGES = {
 exports.SCHEMA = {
     type: 'object',
     properties: {
-        charsets: {
+        ranges: {
             type: 'array',
-            items: [
-                {
-                    type: 'string'
-                },
-                {
-                    type: 'array',
-                    items: {
-                        type: 'number'
+            additionalItems: {
+                oneOf: [
+                    {
+                        type: 'string'
                     },
-                    minLength: 2,
-                    maxLength: 2,
-                    additionalItems: false
-                }
-            ],
-            additionalItems: false
+                    {
+                        type: 'array',
+                        items: { type: 'number' },
+                        minLength: 2,
+                        maxLength: 2
+                    }
+                ]
+            }
         }
     }
 };

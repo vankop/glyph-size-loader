@@ -5,6 +5,7 @@ const opentype_js_1 = require("opentype.js");
 const validateOptions = require('schema-utils');
 const FixedWidthFont_1 = require("./templates/FixedWidthFont");
 const CommonFont_1 = require("./templates/CommonFont");
+const processOptions_1 = require("./processOptions");
 const utils_1 = require("./utils");
 const FIXED_DECIMALS_PLACES = 3;
 const SAME_SIZE_PRECISION = 1 + `e-${FIXED_DECIMALS_PLACES}` - 1;
@@ -16,16 +17,15 @@ function insertCharCode(sizesEntry, code) {
 }
 module.exports = function glyphSizeLoader(content) {
     const font = opentype_js_1.parse(utils_1.bufferToArrayBuffer(content));
-    const options = loader_utils_1.getOptions(this);
-    if (options) {
-        validateOptions(utils_1.SCHEMA, options);
+    const rawOptions = loader_utils_1.getOptions(this);
+    if (rawOptions) {
+        validateOptions(utils_1.SCHEMA, rawOptions);
     }
+    const processedOptions = processOptions_1.default(rawOptions);
     if (!font.supported) {
         throw new Error('Can\'t read font tables');
     }
-    const charRanges = options && options.charset
-        ? utils_1.parseCharRanges(options.charset)
-        : [[0, 0x100000]];
+    const charRanges = utils_1.parseCharRanges(processedOptions.ranges);
     const upm = font.unitsPerEm;
     const glyphs = Object.values(font.glyphs.glyphs);
     const sizes = new Map();

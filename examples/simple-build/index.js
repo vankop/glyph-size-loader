@@ -1,6 +1,6 @@
 import {
 	widthFor
-} from '../../dist/index.js?charset[]=cyrillic,charset[]=latin!./OpenSans-Regular.ttf';
+} from '../../dist/index.js?ranges[]=cyrillic,ranges[]=latin!./OpenSans-Regular.ttf';
 
 const text = 'Hello world!';
 const fontSizePx = 12;
