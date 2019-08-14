@@ -33,3 +33,5 @@ exports.SCHEMA = {
         }
     }
 };
+exports.FIXED_DECIMALS_PLACES = 3;
+exports.SAME_SIZE_PRECISION = 1 + `e-${exports.FIXED_DECIMALS_PLACES}` - 1;

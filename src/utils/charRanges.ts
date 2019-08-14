@@ -1,7 +1,11 @@
 import insert from './insertToArray';
 import {CHAR_RANGES} from './consts';
+import {
+	Range,
+	Ranges
+} from '../types';
 
-function addCharRange(charRange: [number, number], charRanges: Array<[number, number]>): Array<[number, number]> {
+function addCharRange(charRange: Range, charRanges: Ranges): Ranges {
 	let i: number = 0;
 
 	while (i < charRanges.length && charRanges[i][0] < charRange[0]) i++;
@@ -27,9 +31,9 @@ function addCharRange(charRange: [number, number], charRanges: Array<[number, nu
 	return charRanges;
 }
 
-export function parseCharRanges(charRanges: Array<string|[number, number]>): Array<[number, number]> {
+export function parseCharRanges(charRanges: Array<string|[number, number]>): Ranges {
 	let i: number = 0;
-	const result: Array<[number, number]> = [];
+	const result: Ranges = [];
 
 	while (i < charRanges.length) {
 		const current = charRanges[i++];
@@ -65,7 +69,7 @@ export function parseCharRanges(charRanges: Array<string|[number, number]>): Arr
 	return result;
 }
 
-export function isAllowed(charRanges: Array<[number, number]>, unicode: number) {
+export function isAllowed(charRanges: Ranges, unicode: number) {
 	let i = 0;
 
 	while (i < charRanges.length && (charRanges[i][1] - 1) < unicode) i++;

@@ -12,6 +12,7 @@ function getPercent(ch) {
 	if (cache[ch]) return cache[ch];
 
 	var i = 0, j = -1;
+	
 	for (; i < SIZES.length; i++) {
 		if (SIZES[i][0] <= ch && SIZES[i][SIZES[i].length - 2] >= ch) {
 			j = SIZES[i].indexOf(ch);

@@ -34,3 +34,6 @@ export const SCHEMA: JSONSchema7 = {
 		}
 	}
 };
+
+export const FIXED_DECIMALS_PLACES: number = 3;
+export const SAME_SIZE_PRECISION: number = 1 + `e-${FIXED_DECIMALS_PLACES}` as any - 1;
