@@ -8,6 +8,6 @@
 	"strict": true,
 	"module": "commonjs",
 	"moduleResolution": "node",
-	"typeRoots": ["./types"]
+	"typeRoots": ["./types", "./node_modules/@types"]
   }
 }

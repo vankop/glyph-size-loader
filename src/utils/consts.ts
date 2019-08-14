@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { JSONSchema7 } from 'json-schema';
 
 export const CHAR_RANGES: {[k: string]: [number, number]} = {

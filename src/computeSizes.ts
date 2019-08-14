@@ -21,7 +21,7 @@ type OutputResult = {
   sizes: Map<number, Array<number>>;
 };
 
-function insertCharCode(sizesEntry: Array<number>, code: number) {
+function insertCharCode(sizesEntry: Array<number>, code: number): void {
   let i = sizesEntry.length - 2;
 
   while (i > -1 && sizesEntry[i] > code) i--;

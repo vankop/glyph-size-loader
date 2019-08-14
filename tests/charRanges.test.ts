@@ -62,7 +62,14 @@ describe('parseCharRanges', () => {
     });
 
     it('rearrange last', () => {
-      const parsed = parseCharRanges(['0399-03FF', [0x0451, 0x0492], '0300-03F9', '0A11-0BFF', '0999-0A10', [0x0701, 0x0701]]);
+      const parsed = parseCharRanges([
+        '0399-03FF',
+        [0x0451, 0x0492],
+        '0300-03F9',
+        '0A11-0BFF',
+        '0999-0A10',
+        [0x0701, 0x0701],
+      ]);
 
       expect(parsed[0]).toEqual([0x0300, 0x0400]);
       expect(parsed[1]).toEqual([0x0451, 0x0493]);

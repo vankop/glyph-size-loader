@@ -68,7 +68,7 @@ export function parseCharRanges(charRanges: Array<string|[number, number]>): Ran
   return result;
 }
 
-export function isAllowed(charRanges: Ranges, unicode: number) {
+export function isAllowed(charRanges: Ranges, unicode: number): boolean {
   let i = 0;
 
   while (i < charRanges.length && (charRanges[i][1] - 1) < unicode) i++;

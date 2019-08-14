@@ -1,4 +1,4 @@
-export default function baseTemplate() {
+export default function baseTemplate(): string {
   /* eslint-disable */
   return `
 export function widthFor(text, fontSize) {

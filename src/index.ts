@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { loader } from 'webpack';
 import { getOptions } from 'loader-utils';
 import { parse, Font, Glyph } from 'opentype.js';
@@ -13,7 +14,7 @@ import {
   SCHEMA,
 } from './utils';
 
-module.exports = function glyphSizeLoader(this: loader.LoaderContext, content: Buffer) {
+module.exports = function glyphSizeLoader(this: loader.LoaderContext, content: Buffer): string {
   const rawOptions: Partial<LoaderOptions> | null = getOptions<Partial<LoaderOptions>>(this);
 
   if (rawOptions) {
