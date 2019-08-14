@@ -1,5 +1,5 @@
 export interface LoaderOptions {
-	ranges: Array<string|[number, number]>
+  ranges: Array<string|[number, number]>;
 }
 
 export type Range = [number, number];

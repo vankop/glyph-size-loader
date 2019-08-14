@@ -1,9 +1,10 @@
 import baseTemplate from './Base';
 
 export default function commonFontTemplate(glyphs: Map<number, Array<number>>, avg: number): string {
-	const sorted = Array.from(glyphs.values()).sort((a, b) => a[0] - b[0]);
+  const sorted = Array.from(glyphs.values()).sort((a, b) => a[0] - b[0]);
 
-	return `var SIZES = ${JSON.stringify(sorted)}, cache = {};
+  /* eslint-disable */
+  return `var SIZES = ${JSON.stringify(sorted)}, cache = {};
 
 function getPercent(ch) {
 	if (cache[ch]) return cache[ch];
@@ -29,5 +30,6 @@ function multiplier(text) {
 	
 	return result;
 }
-` + baseTemplate();
-};
+${baseTemplate()}`;
+/* eslint-enable */
+}
