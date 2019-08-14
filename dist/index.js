@@ -1,27 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const loaderUtils = require("loader-utils");
+const loader_utils_1 = require("loader-utils");
+const opentype_js_1 = require("opentype.js");
+const validateOptions = require('schema-utils');
 const FixedWidthFont_1 = require("./templates/FixedWidthFont");
 const CommonFont_1 = require("./templates/CommonFont");
-const index_1 = require("./utils/index");
-const opentype = require("opentype.js");
-const charsets_1 = require("./utils/charsets");
-const FIXED_DECIMALS = 3;
-const SAME_SIZE_PRECISION = 1 + `e-${FIXED_DECIMALS}` - 1;
+const utils_1 = require("./utils");
+const FIXED_DECIMALS_PLACES = 3;
+const SAME_SIZE_PRECISION = 1 + `e-${FIXED_DECIMALS_PLACES}` - 1;
 function insertCharCode(sizesEntry, code) {
     let i = sizesEntry.length - 2;
     while (i > -1 && sizesEntry[i] > code)
         i--;
-    index_1.insertToArray(sizesEntry, code, i + 1);
+    utils_1.insertToArray(sizesEntry, code, i + 1);
 }
 module.exports = function glyphSizeLoader(content) {
-    const font = opentype.parse(index_1.bufferToArrayBuffer(content));
-    const options = loaderUtils.getOptions(this);
+    const font = opentype_js_1.parse(utils_1.bufferToArrayBuffer(content));
+    const options = loader_utils_1.getOptions(this);
+    if (options) {
+        validateOptions(utils_1.SCHEMA, options);
+    }
     if (!font.supported) {
         throw new Error('Can\'t read font tables');
     }
-    const charsets = options && options.charset
-        ? index_1.parseCharsets(options.charset)
+    const charRanges = options && options.charset
+        ? utils_1.parseCharRanges(options.charset)
         : [[0, 0x100000]];
     const upm = font.unitsPerEm;
     const glyphs = Object.values(font.glyphs.glyphs);
@@ -37,7 +40,7 @@ module.exports = function glyphSizeLoader(content) {
         }
         let size = advanceWidth / upm;
         sum += size;
-        size = index_1.decimalToFixed(size, FIXED_DECIMALS);
+        size = utils_1.decimalPlacesToFixed(size, FIXED_DECIMALS_PLACES);
         if (isFixedSize) {
             if (fixedSize === -1) {
                 fixedSize = size;
@@ -46,7 +49,7 @@ module.exports = function glyphSizeLoader(content) {
                 isFixedSize = false;
             }
         }
-        if (unicodes.every(code => charsets_1.isAllowed(charsets, code))) {
+        if (unicodes.every(code => utils_1.isCharAllowed(charRanges, code))) {
             if (sizes.has(size)) {
                 const current = sizes.get(size);
                 unicodes.forEach(ch => typeof ch === 'number' && insertCharCode(current, ch));
@@ -60,6 +63,6 @@ module.exports = function glyphSizeLoader(content) {
     }
     return (isFixedSize
         ? FixedWidthFont_1.default(fixedSize)
-        : CommonFont_1.default(sizes, index_1.decimalToFixed(sum / Object.keys(font.glyphs.glyphs).length, FIXED_DECIMALS)));
+        : CommonFont_1.default(sizes, utils_1.decimalPlacesToFixed(sum / Object.keys(font.glyphs.glyphs).length, FIXED_DECIMALS_PLACES)));
 };
 module.exports.raw = true;

@@ -1,18 +1,20 @@
-import * as webpack from 'webpack';
-import * as loaderUtils from 'loader-utils';
+import {loader} from 'webpack';
+import {getOptions} from 'loader-utils';
+import {parse, Font, Glyph} from 'opentype.js';
+const validateOptions = require('schema-utils');
 import fixedWidthFontTemplate from './templates/FixedWidthFont';
 import commonFontTemplate from './templates/CommonFont';
 import {
 	bufferToArrayBuffer,
-	decimalToFixed,
-	parseCharsets,
+	decimalPlacesToFixed,
+	parseCharRanges,
+	isCharAllowed,
+	SCHEMA,
 	insertToArray
-} from './utils/index';
-import * as opentype from 'opentype.js';
-import {isAllowed} from './utils/charsets';
+} from './utils';
 
-const FIXED_DECIMALS: number = 3;
-const SAME_SIZE_PRECISION: number = 1 + `e-${FIXED_DECIMALS}` as any - 1;
+const FIXED_DECIMALS_PLACES: number = 3;
+const SAME_SIZE_PRECISION: number = 1 + `e-${FIXED_DECIMALS_PLACES}` as any - 1;
 
 interface LoaderOptions {
 	charset?: Array<string>
@@ -25,19 +27,23 @@ function insertCharCode(sizesEntry: Array<number>, code: number) {
 	insertToArray(sizesEntry, code, i + 1);
 }
 
-module.exports = function glyphSizeLoader(this: webpack.loader.LoaderContext, content: Buffer) {
-	const font: opentype.Font = opentype.parse(bufferToArrayBuffer(content));
-	const options: LoaderOptions | null = loaderUtils.getOptions<LoaderOptions>(this);
+module.exports = function glyphSizeLoader(this: loader.LoaderContext, content: Buffer) {
+	const font: Font = parse(bufferToArrayBuffer(content));
+	const options: LoaderOptions | null = getOptions<LoaderOptions>(this);
+
+	if (options) {
+		validateOptions(SCHEMA, options);
+	}
 
 	if (!font.supported) {
 		throw new Error('Can\'t read font tables');
 	}
 
-	const charsets: Array<[number, number]> = options && options.charset
-		? parseCharsets(options.charset)
+	const charRanges: Array<[number, number]> = options && options.charset
+		? parseCharRanges(options.charset)
 		: [[0, 0x100000]];
 	const upm: number = font.unitsPerEm;
-	const glyphs: Array<opentype.Glyph> = Object.values(font.glyphs.glyphs);
+	const glyphs: Array<Glyph> = Object.values(font.glyphs.glyphs);
 	const sizes: Map<number, Array<number>> = new Map();
 	let sum: number = 0;
 	let isFixedSize: boolean = true;
@@ -53,7 +59,7 @@ module.exports = function glyphSizeLoader(this: webpack.loader.LoaderContext, co
 
 		let size: number = advanceWidth / upm;
 		sum += size;
-		size = decimalToFixed(size, FIXED_DECIMALS);
+		size = decimalPlacesToFixed(size, FIXED_DECIMALS_PLACES);
 
 		if (isFixedSize) {
 			if (fixedSize === -1) {
@@ -65,7 +71,7 @@ module.exports = function glyphSizeLoader(this: webpack.loader.LoaderContext, co
 			}
 		}
 
-		if (unicodes.every(code => isAllowed(charsets, code))) {
+		if (unicodes.every(code => isCharAllowed(charRanges, code))) {
 			if (sizes.has(size)) {
 				const current = sizes.get(size) as Array<number>;
 
@@ -82,7 +88,7 @@ module.exports = function glyphSizeLoader(this: webpack.loader.LoaderContext, co
 	return (
 		isFixedSize
 			? fixedWidthFontTemplate(fixedSize)
-			: commonFontTemplate(sizes, decimalToFixed(sum / Object.keys(font.glyphs.glyphs).length, FIXED_DECIMALS))
+			: commonFontTemplate(sizes, decimalPlacesToFixed(sum / Object.keys(font.glyphs.glyphs).length, FIXED_DECIMALS_PLACES))
 	);
 };
 module.exports.raw = true;

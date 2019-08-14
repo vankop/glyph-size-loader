@@ -1,4 +1,5 @@
-export {default as decimalToFixed} from './decimalToFixed';
+export {default as decimalPlacesToFixed} from './decimalPlacesToFixed';
 export {default as bufferToArrayBuffer} from './bufferToArrayBuffer';
-export {parseCharsets, isAllowed as isCharAllowed} from './charsets';
+export {parseCharRanges, isAllowed as isCharAllowed} from './charRanges';
+export * from './consts';
 export {default as insertToArray} from './insertToArray';

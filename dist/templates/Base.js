@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function baseTemplate() {
-    return `export function widthFor(text, fontSize) {
+    return `
+export function widthFor(text, fontSize) {
 	if (typeof text !== "string") return 0;
 	
 	return Math.ceil(multiplier(text) * fontSize);

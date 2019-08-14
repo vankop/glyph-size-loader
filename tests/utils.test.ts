@@ -1,15 +1,15 @@
 import {
-	decimalToFixed,
+	decimalPlacesToFixed,
 	insertToArray
-} from '../utils';
+} from '../src/utils';
 
 describe("decimalToFixed", () => {
 	it("rounding decimal", () => {
-		expect(decimalToFixed(4.235, 2)).toBe(4.24);
+		expect(decimalPlacesToFixed(4.235, 2)).toBe(4.24);
 	});
 
 	it("works fine with integers", () => {
-		expect(decimalToFixed(10, 2)).toBe(10);
+		expect(decimalPlacesToFixed(10, 2)).toBe(10);
 	});
 });
 
