@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function baseTemplate() {
+    /* eslint-disable */
     return `
 export function widthFor(text, fontSize) {
 	if (typeof text !== "string") return 0;
@@ -13,6 +14,6 @@ export function fitTo(text, width) {
 	
 	return Math.floor(width / multiplier(text));
 }`;
+    /* eslint-enable */
 }
 exports.default = baseTemplate;
-;

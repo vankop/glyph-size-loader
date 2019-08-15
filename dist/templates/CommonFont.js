@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Base_1 = __importDefault(require("./Base"));
 function commonFontTemplate(glyphs, avg) {
     const sorted = Array.from(glyphs.values()).sort((a, b) => a[0] - b[0]);
+    /* eslint-disable */
     return `var SIZES = ${JSON.stringify(sorted)}, cache = {};
 
 function getPercent(ch) {
@@ -32,7 +33,7 @@ function multiplier(text) {
 	
 	return result;
 }
-` + Base_1.default();
+${Base_1.default()}`;
+    /* eslint-enable */
 }
 exports.default = commonFontTemplate;
-;

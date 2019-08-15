@@ -10,7 +10,7 @@ exports.CHAR_RANGES = {
     hebrew: [0x0590, 0x05FF + 1],
     arabic: [0x0600, 0x077F + 1],
     currency: [0x20A0, 0x20CF + 1],
-    math: [0x2200, 0x22FF + 1]
+    math: [0x2200, 0x22FF + 1],
 };
 exports.SCHEMA = {
     type: 'object',
@@ -20,18 +20,18 @@ exports.SCHEMA = {
             additionalItems: {
                 oneOf: [
                     {
-                        type: 'string'
+                        type: 'string',
                     },
                     {
                         type: 'array',
                         items: { type: 'number' },
                         minLength: 2,
-                        maxLength: 2
-                    }
-                ]
-            }
-        }
-    }
+                        maxLength: 2,
+                    },
+                ],
+            },
+        },
+    },
 };
 exports.FIXED_DECIMALS_PLACES = 3;
-exports.SAME_SIZE_PRECISION = 1 + `e-${exports.FIXED_DECIMALS_PLACES}` - 1;
+exports.SAME_SIZE_PRECISION = `${1}e-${exports.FIXED_DECIMALS_PLACES}` - 1;

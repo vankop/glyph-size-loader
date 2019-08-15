@@ -29,13 +29,13 @@ function computeGlyphSizes({ glyphs, charRanges, upm }) {
                 isFixedSize = false;
             }
         }
-        if (unicodes.every(code => utils_1.isCharAllowed(charRanges, code))) {
+        if (unicodes.every((code) => utils_1.isCharAllowed(charRanges, code))) {
             if (sizes.has(size)) {
                 const current = sizes.get(size);
-                unicodes.forEach(ch => typeof ch === 'number' && insertCharCode(current, ch));
+                unicodes.forEach((ch) => typeof ch === 'number' && insertCharCode(current, ch));
             }
             else {
-                const sorted = unicodes.filter(a => typeof a === 'number').sort();
+                const sorted = unicodes.filter((a) => typeof a === 'number').sort();
                 sorted.push(size);
                 sizes.set(size, sorted);
             }
@@ -45,7 +45,7 @@ function computeGlyphSizes({ glyphs, charRanges, upm }) {
         sizes,
         isFixedSize,
         fixedSize,
-        avg: utils_1.decimalPlacesToFixed(sum / glyphs.length, utils_1.FIXED_DECIMALS_PLACES)
+        avg: utils_1.decimalPlacesToFixed(sum / glyphs.length, utils_1.FIXED_DECIMALS_PLACES),
     };
 }
 exports.default = computeGlyphSizes;

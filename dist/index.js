@@ -24,10 +24,10 @@ module.exports = function glyphSizeLoader(content) {
     const charRanges = utils_1.parseCharRanges(processedOptions.ranges);
     const upm = font.unitsPerEm;
     const glyphs = Object.values(font.glyphs.glyphs);
-    const { sizes, isFixedSize, avg, fixedSize } = computeSizes_1.default({
+    const { sizes, isFixedSize, avg, fixedSize, } = computeSizes_1.default({
         glyphs,
         charRanges,
-        upm
+        upm,
     });
     return (isFixedSize
         ? FixedWidthFont_1.default(fixedSize)
