@@ -1,7 +1,7 @@
 import {
   decimalPlacesToFixed,
   insertToArray,
-} from '../src/utils';
+} from '../utils';
 
 describe('decimalToFixed', () => {
   it('rounding decimal', () => {

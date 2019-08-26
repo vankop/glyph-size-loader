@@ -1,9 +1,21 @@
+const path = require('path');
+
 module.exports = {
-	"testEnvironment": "node",
-	"roots": [
-		"<rootDir>/tests"
+	globals: {
+		'ts-jest': {
+			tsConfig: path.resolve('./src/tsconfig.json')
+		}
+	},
+	testEnvironment: "node",
+	roots: [
+		"<rootDir>/src"
 	],
-	"transform": {
+	"collectCoverageFrom": [
+		"**/*.ts",
+		"!**/node_modules/**",
+		"!**/vendor/**"
+	],
+	transform: {
 		"^.+\\.ts$": "ts-jest"
 	},
 };

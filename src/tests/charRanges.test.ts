@@ -1,14 +1,16 @@
-import { parseCharRanges, isCharAllowed } from '../src/utils';
+import { parseCharRanges, isCharAllowed } from '../utils';
 
 describe('parseCharRanges', () => {
   it('parse string charset', () => {
-    const parsed = parseCharRanges(['latin']);
+    const parsed = parseCharRanges(['basic-latin']);
 
     expect(parsed).toContainEqual([0, 0x0080]);
   });
 
-  it('expect valid charset name', () => {
-    expect(() => parseCharRanges(['lAtin'])).toThrowError();
+  it('using lower case range name', () => {
+    const parsed = parseCharRanges(['basic-lAtin']);
+
+    expect(parsed).toContainEqual([0, 0x0080]);
   });
 
   it('parse charset range', () => {
@@ -90,7 +92,7 @@ describe('parseCharRanges', () => {
     const parsed = parseCharRanges(['0100-0200', 'cyrillic']);
 
     expect(parsed).toContainEqual([0x0100, 0x0201]);
-    expect(parsed).toContainEqual([0x0400, 0x052F + 1]);
+    expect(parsed).toContainEqual([0x0400, 0x0500]);
     expect(parsed).toHaveLength(2);
   });
 });
