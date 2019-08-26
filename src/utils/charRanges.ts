@@ -55,7 +55,7 @@ export function parseCharRanges(charRanges: Array<string|[number, number]>): Ran
 
       addCharRange([num1, num2 + 1], result);
     } else {
-      const charRange = CHAR_RANGES[current];
+      const charRange = CHAR_RANGES[current.toLowerCase()];
 
       if (!Array.isArray(charRange)) {
         throw new Error(`Char range name "${current}" does not supported`);
