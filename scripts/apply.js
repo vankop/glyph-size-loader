@@ -15,7 +15,7 @@ parse({
 	namesListFileName: NAMES_LIST_FILE_NAME
 }).then(([blocks, namesList]) => {
 	console.log(`Writing ${JSON_OUTPUT_PATH}..`);
-	writeFileAsync(JSON_OUTPUT_PATH, JSON.stringify(blocks)).then(() => console.log(`${JSON_OUTPUT_PATH} done`));
+	writeFileAsync(JSON_OUTPUT_PATH, JSON.stringify(blocks, null, 4)).then(() => console.log(`${JSON_OUTPUT_PATH} done`));
 
 	const keys = Object.keys(blocks);
 	console.log('Creating Blocks.md..');
