@@ -28,7 +28,7 @@
     "schema-utils": "^2.6.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.17",
+    "@types/jest": "^25.1.0",
     "@types/json-schema": "^7.0.3",
     "@types/node": "~10.14.16",
     "@types/webpack": "^4.32.1",
