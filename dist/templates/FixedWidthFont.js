@@ -6,7 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Base_1 = __importDefault(require("./Base"));
 function fixedWidthFontTemplate(percent) {
     /* eslint-disable */
-    return `function multiplier(text) { return text.length * ${percent}; }
+    return `
+  function getPercent() {return ${percent};}
+
+  function multiplier(text) { return text.length * getPercent(); }
 ${Base_1.default()}`;
     /* eslint-enable */
 }
