@@ -23,7 +23,7 @@ export function cutTo(text, fontSize, width, postfix) {
     
     for (; i < text.length; i++) {
       result += getPercent(text.charCodeAt(i));
-      widthByLength.push(Math.ceil(result * fontSize))
+      widthByLength.push(Math.floor(result * fontSize))
     }
     
     return widthByLength[widthByLength.length - 1];
@@ -33,7 +33,7 @@ export function cutTo(text, fontSize, width, postfix) {
   if (widthFor(text, fontSize) <= width) return text;
 
   // rest width don't know about ceiling in widthFor, so it subtracts 1px 
-  var restWidth = width - (postfix ? widthFor(text, fontSize) : 0) - 1;
+  var restWidth = width - (typeof postfix == "string" ? widthFor(postfix, fontSize) : 0) - 1;
   var i = 0;
   var j = text.length - 1;
 
